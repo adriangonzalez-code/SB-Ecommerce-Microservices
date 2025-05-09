@@ -1,0 +1,47 @@
+# Archivos de configuración específicos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación
+target/
+out/
+bin/
+
+# Archivos de configuración de IDEs
+*.iml
+.idea/
+*.class
+*.log
+*.swp
+*.swo
+.vscode/
+*.ipr
+*.iws
+
+# Archivos de Maven
+.mvn/
+.m2/
+dependency-reduced-pom.xml
+
+# Archivos de configuración de Spring Boot
+*.properties
+*.yml
+*.yaml
+
+# Archivos de prueba
+test-output/
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.bak
+*.old
+*.orig
+
+# Archivos generados por el sistema
+*.war
+*.jar
+*.ear
