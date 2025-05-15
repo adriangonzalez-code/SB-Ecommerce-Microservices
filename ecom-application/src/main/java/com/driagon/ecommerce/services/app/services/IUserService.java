@@ -3,12 +3,15 @@ package com.driagon.ecommerce.services.app.services;
 import com.driagon.ecommerce.services.app.dto.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IUserService {
 
     List<User> fetchAllUsers();
 
-    List<User> addUser(User user);
+    void addUser(User user);
 
-    User fetchUser(Long id);
+    Optional<User> fetchUser(Long id);
+
+    boolean updateUser(Long id, User user);
 }

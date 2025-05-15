@@ -7,5 +7,5 @@ id = '72316fbf-6104-4140-ab17-ff2d3f7798bd'
 
 [[pathVariables]]
 key = 'id'
-value = '4'
+value = '1'
 ```

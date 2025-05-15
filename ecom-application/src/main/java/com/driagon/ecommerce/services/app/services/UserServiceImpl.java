@@ -1,38 +1,43 @@
 package com.driagon.ecommerce.services.app.services;
 
 import com.driagon.ecommerce.services.app.dto.User;
+import com.driagon.ecommerce.services.app.repositories.IUserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
 
-    private List<User> userList = new ArrayList<>();
-    private Long nextId = 1L;
+    private final IUserRepository repository;
 
     @Override
     public List<User> fetchAllUsers() {
-        // Logic to fetch all users
-        return this.userList;
+        return this.repository.findAll();
     }
 
     @Override
-    public List<User> addUser(User user) {
-        // Logic to create a new user
-        user.setId(this.nextId++);
-        this.userList.add(user);
-        return this.userList;
+    public void addUser(User user) {
+        this.repository.save(user);
     }
 
     @Override
-    public User fetchUser(Long id) {
-        for (User user : this.userList) {
-            if (user.getId().equals(id)) {
-                return user;
-            }
-        }
-        return null;
+    public Optional<User> fetchUser(Long id) {
+        return this.repository.findById(id);
+    }
+
+    @Override
+    public boolean updateUser(Long id, User user) {
+        return this.repository.findById(id)
+                .map(u -> {
+                    u.setFirstName(user.getFirstName());
+                    u.setLastName(user.getLastName());
+                    this.repository.save(u);
+                    return true;
+                })
+                .orElse(false);
     }
 }
