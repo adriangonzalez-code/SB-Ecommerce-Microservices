@@ -1,6 +1,7 @@
 package com.driagon.ecommerce.services.app.controllers;
 
-import com.driagon.ecommerce.services.app.dto.User;
+import com.driagon.ecommerce.services.app.dto.UserResponse;
+import com.driagon.ecommerce.services.app.models.User;
 import com.driagon.ecommerce.services.app.services.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class UserController {
     private final IUserService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
         return new ResponseEntity<>(this.service.fetchAllUsers(), HttpStatus.OK);
     }
 

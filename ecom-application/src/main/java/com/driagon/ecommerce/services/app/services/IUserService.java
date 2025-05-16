@@ -1,13 +1,14 @@
 package com.driagon.ecommerce.services.app.services;
 
-import com.driagon.ecommerce.services.app.dto.User;
+import com.driagon.ecommerce.services.app.dto.UserResponse;
+import com.driagon.ecommerce.services.app.models.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IUserService {
 
-    List<User> fetchAllUsers();
+    List<UserResponse> fetchAllUsers();
 
     void addUser(User user);
 
