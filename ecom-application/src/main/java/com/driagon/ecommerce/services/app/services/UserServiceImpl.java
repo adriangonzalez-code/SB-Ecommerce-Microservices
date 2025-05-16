@@ -1,6 +1,8 @@
 package com.driagon.ecommerce.services.app.services;
 
-import com.driagon.ecommerce.services.app.dto.User;
+import com.driagon.ecommerce.services.app.dto.UserResponse;
+import com.driagon.ecommerce.services.app.mappers.MapToUser;
+import com.driagon.ecommerce.services.app.models.User;
 import com.driagon.ecommerce.services.app.repositories.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,8 @@ public class UserServiceImpl implements IUserService {
     private final IUserRepository repository;
 
     @Override
-    public List<User> fetchAllUsers() {
-        return this.repository.findAll();
+    public List<UserResponse> fetchAllUsers() {
+        return this.repository.findAll().stream().map(MapToUser::mapToUserResponse).toList();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.driagon.ecommerce.services.app.dto;
+package com.driagon.ecommerce.services.app.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,19 +16,27 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
-@Entity(name = "users")
-public class User {
+@ToString
+@Entity(name = "addresses")
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "street")
+    private String street;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "state")
+    private String state;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "zip_code")
+    private String zipCode;
 }
