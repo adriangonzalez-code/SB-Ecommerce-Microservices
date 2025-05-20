@@ -17,7 +17,7 @@ raw = '''
     "street": "123 Main St",
     "city": "Anytown",
     "state": "CA",
-    "country": "USA","
+    "country": "USA",
     "zipCode": "12345"
   },
 }'''

@@ -1,5 +1,6 @@
 package com.driagon.ecommerce.services.app.services;
 
+import com.driagon.ecommerce.services.app.dto.UserRequest;
 import com.driagon.ecommerce.services.app.dto.UserResponse;
 import com.driagon.ecommerce.services.app.models.User;
 
@@ -10,9 +11,9 @@ public interface IUserService {
 
     List<UserResponse> fetchAllUsers();
 
-    void addUser(User user);
+    UserResponse addUser(UserRequest userRequest);
 
-    Optional<User> fetchUser(Long id);
+    Optional<UserResponse> fetchUser(Long id);
 
-    boolean updateUser(Long id, User user);
+    UserResponse updateUser(Long id, UserRequest userRequest);
 }
