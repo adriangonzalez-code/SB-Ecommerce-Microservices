@@ -1,5 +1,6 @@
 package com.driagon.ecommerce.services.app.controllers;
 
+import com.driagon.ecommerce.services.app.dto.UserRequest;
 import com.driagon.ecommerce.services.app.dto.UserResponse;
 import com.driagon.ecommerce.services.app.models.User;
 import com.driagon.ecommerce.services.app.services.IUserService;
@@ -29,25 +30,25 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getAllUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getAllUserById(@PathVariable Long id) {
         return this.service.fetchUser(id)
                 .map(u -> new ResponseEntity<>(u, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody User user) {
-        this.service.addUser(user);
-         return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
+    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+        UserResponse response = this.service.addUser(userRequest);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User user) {
-        boolean b = this.service.updateUser(id, user);
-        if (!b) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserRequest userRequest) {
+        UserResponse response = this.service.updateUser(id, userRequest);
+        if (response == null) {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

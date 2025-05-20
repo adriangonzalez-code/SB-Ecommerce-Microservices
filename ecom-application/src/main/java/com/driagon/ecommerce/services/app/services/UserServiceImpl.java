@@ -1,7 +1,8 @@
 package com.driagon.ecommerce.services.app.services;
 
+import com.driagon.ecommerce.services.app.dto.UserRequest;
 import com.driagon.ecommerce.services.app.dto.UserResponse;
-import com.driagon.ecommerce.services.app.mappers.MapToUser;
+import com.driagon.ecommerce.services.app.mappers.UserMapper;
 import com.driagon.ecommerce.services.app.models.User;
 import com.driagon.ecommerce.services.app.repositories.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.driagon.ecommerce.services.app.mappers.UserMapper.mapUserRequestToUser;
 
 @Service
 @RequiredArgsConstructor
@@ -18,28 +21,30 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserResponse> fetchAllUsers() {
-        return this.repository.findAll().stream().map(MapToUser::mapToUserResponse).toList();
+        return this.repository.findAll().stream().map(UserMapper::mapUserToUserResponse).toList();
     }
 
     @Override
-    public void addUser(User user) {
-        this.repository.save(user);
+    public UserResponse addUser(UserRequest userRequest) {
+        User user = new User();
+        mapUserRequestToUser(user, userRequest);
+        user = this.repository.save(user);
+        return UserMapper.mapUserToUserResponse(user);
     }
 
     @Override
-    public Optional<User> fetchUser(Long id) {
-        return this.repository.findById(id);
+    public Optional<UserResponse> fetchUser(Long id) {
+        return this.repository.findById(id).map(UserMapper::mapUserToUserResponse);
     }
 
     @Override
-    public boolean updateUser(Long id, User user) {
+    public UserResponse updateUser(Long id, UserRequest userRequest) {
         return this.repository.findById(id)
-                .map(u -> {
-                    u.setFirstName(user.getFirstName());
-                    u.setLastName(user.getLastName());
-                    this.repository.save(u);
-                    return true;
+                .map(user -> {
+                    mapUserRequestToUser(user, userRequest);
+                    user = this.repository.save(user);
+                    return UserMapper.mapUserToUserResponse(user);
                 })
-                .orElse(false);
+                .orElse(null);
     }
 }

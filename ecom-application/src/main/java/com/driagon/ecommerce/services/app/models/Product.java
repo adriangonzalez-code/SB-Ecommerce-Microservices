@@ -1,14 +1,10 @@
 package com.driagon.ecommerce.services.app.models;
 
-import com.driagon.ecommerce.services.app.constants.UserRole;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +14,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -26,32 +23,34 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @Builder
-@Entity(name = "users")
-public class User {
+@Entity(name = "products")
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "username")
-    private String email;
+    @Column(name = "price")
+    private BigDecimal price;
 
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "stock_quantity")
+    private Integer stockQuantity;
 
-    @Column(name = "role")
-    private UserRole role = UserRole.CUSTOMER;
+    @Column(name = "category")
+    private String category;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    @Column(name = "active")
+    private Boolean active = true;
 
     @CreationTimestamp
     @Column(name = "created_at")
