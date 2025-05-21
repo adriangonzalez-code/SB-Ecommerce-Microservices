@@ -40,6 +40,20 @@ public class ProductServiceImpl implements IProductService {
                 .orElse(null);
     }
 
+    /**
+     * Searches for products by a keyword.
+     *
+     * @param keyword the keyword to search for
+     * @return a list of product responses matching the keyword
+     */
+    @Override
+    public List<ProductResponse> searchProduct(String keyword) {
+        return this.repository.searchProduct(keyword)
+                .stream()
+                .map(ProductMapper::mapProductToProductResponse)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public ProductResponse createProduct(ProductRequest productRequest) {
         Product product = new Product();
@@ -56,5 +70,21 @@ public class ProductServiceImpl implements IProductService {
                     product = this.repository.save(product);
                     return ProductMapper.mapProductToProductResponse(product);
                 }).orElse(null);
+    }
+
+    /**
+     * Deletes a product by its ID.
+     *
+     * @param id the ID of the product to delete
+     * @return
+     */
+    @Override
+    public boolean deleteProduct(Long id) {
+        return this.repository.findById(id)
+                .map(product -> {
+                    product.setActive(false);
+                    this.repository.save(product);
+                    return true;
+                }).orElse(false);
     }
 }

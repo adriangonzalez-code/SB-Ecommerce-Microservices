@@ -12,7 +12,7 @@ raw = '''
   "name": "New Laptop",
   "description": "Alienware m15 R7 Gaming Laptop",
   "price": "1500.00",
-  "stockQuantity": "50",",
+  "stockQuantity": "50",
   "category": "Electronics",
   "imageUrl": "https://example.com/laptop.jpg",
 }'''
