@@ -12,4 +12,6 @@ public interface ICartService {
      * @return true if the item was added successfully, false otherwise.
      */
     boolean addToCart(String userId, CartItemRequest cartItemRequest);
+
+    boolean deleteItemFromCart(String userId, Long productId);
 }

@@ -5,6 +5,8 @@ import com.driagon.ecommerce.services.app.services.ICartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -30,6 +32,21 @@ public class CartController {
                     : ResponseEntity.badRequest().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/items/{productId}")
+    public ResponseEntity<Void> removeFromCart(@RequestHeader(value = "X-USER-ID") String userId, @PathVariable Long productId) {
+        if (userId == null || userId.isBlank() || productId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        boolean deleted = this.service.deleteItemFromCart(userId, productId);
+
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

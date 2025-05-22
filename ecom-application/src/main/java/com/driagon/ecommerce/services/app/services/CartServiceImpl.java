@@ -9,11 +9,14 @@ import com.driagon.ecommerce.services.app.repositories.IProductRepository;
 import com.driagon.ecommerce.services.app.repositories.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CartServiceImpl implements ICartService {
 
     private final ICartItemRepository repository;
@@ -79,7 +82,26 @@ public class CartServiceImpl implements ICartService {
             return false;
         }
     }
-    
+
+    @Override
+    public boolean deleteItemFromCart(String userId, Long productId) {
+        if (userId == null || productId == null) {
+            return false;
+        }
+
+        Optional<Product> product = this.productRepository.findById(productId);
+
+        Optional<User> user = this.userRepository.findById(Long.valueOf(userId));
+
+        if (user.isEmpty() || product.isEmpty()) {
+            return false;
+        }
+
+        this.repository.deleteByUserAndProduct(user.get(), product.get());
+
+        return true;
+    }
+
     private BigDecimal calculateItemPrice(BigDecimal unitPrice, int quantity) {
         return unitPrice.multiply(BigDecimal.valueOf(quantity));
     }
