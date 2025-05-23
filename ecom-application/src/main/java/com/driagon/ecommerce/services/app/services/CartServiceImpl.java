@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -100,6 +101,13 @@ public class CartServiceImpl implements ICartService {
         this.repository.deleteByUserAndProduct(user.get(), product.get());
 
         return true;
+    }
+
+    @Override
+    public List<CartItem> getCartItems(String userId) {
+        return this.userRepository.findById(Long.valueOf(userId))
+                .map(repository::findByUser)
+                .orElseGet(List::of);
     }
 
     private BigDecimal calculateItemPrice(BigDecimal unitPrice, int quantity) {
