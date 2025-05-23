@@ -1,6 +1,9 @@
 package com.driagon.ecommerce.services.app.services;
 
 import com.driagon.ecommerce.services.app.dto.CartItemRequest;
+import com.driagon.ecommerce.services.app.models.CartItem;
+
+import java.util.List;
 
 public interface ICartService {
 
@@ -14,4 +17,6 @@ public interface ICartService {
     boolean addToCart(String userId, CartItemRequest cartItemRequest);
 
     boolean deleteItemFromCart(String userId, Long productId);
+
+    List<CartItem> getCartItems(String userId);
 }
