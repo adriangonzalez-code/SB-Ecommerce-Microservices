@@ -26,6 +26,8 @@ public class CartServiceImpl implements ICartService {
 
     private final IUserRepository userRepository;
 
+    private final ICartItemRepository cartItemRepository;
+
     /**
      * Adds an item to the user's cart.
      *
@@ -112,5 +114,11 @@ public class CartServiceImpl implements ICartService {
 
     private BigDecimal calculateItemPrice(BigDecimal unitPrice, int quantity) {
         return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    @Override
+    public void clearCart(String userId) {
+        this.userRepository.findById(Long.valueOf(userId))
+                .ifPresent(this.cartItemRepository::deleteByUser);
     }
 }
