@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,8 @@ public class CartServiceImpl implements ICartService {
     private final IProductRepository productRepository;
 
     private final IUserRepository userRepository;
+
+    private final ICartItemRepository cartItemRepository;
 
     /**
      * Adds an item to the user's cart.
@@ -102,7 +105,20 @@ public class CartServiceImpl implements ICartService {
         return true;
     }
 
+    @Override
+    public List<CartItem> getCartItems(String userId) {
+        return this.userRepository.findById(Long.valueOf(userId))
+                .map(repository::findByUser)
+                .orElseGet(List::of);
+    }
+
     private BigDecimal calculateItemPrice(BigDecimal unitPrice, int quantity) {
         return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    @Override
+    public void clearCart(String userId) {
+        this.userRepository.findById(Long.valueOf(userId))
+                .ifPresent(this.cartItemRepository::deleteByUser);
     }
 }
