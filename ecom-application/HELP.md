@@ -34,10 +34,35 @@ mvn spring-boot:build-image "-Dspring-boot.build-image.imageName=smoothiemx/sb-e
 ```
 
 ### Running the Application
+
+To allow the application to connect to the PostgreSQL database, you need to create a network and connect both containers to it:
+
+```bash
+docker network create ecommerce-network
+```
+
 To run the application, you can use the following command:
 
 ```bash
-docker run -p 8080:8080 smoothiemx/sb-ecommerce-course
+docker run --network ecommerce-network -p 8080:8080 smoothiemx/sb-ecommerce-course
+```
+
+To run the application in detached mode, you can use the `-d` flag:
+
+```bash
+docker run -d --network ecommerce-network -p 8080:8080 smoothiemx/sb-ecommerce-course
+```
+
+This app requires a database to run. You can use the following command to run a PostgreSQL container:
+
+```bash
+docker run -d --name db --network ecommerce-network -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=admin123 -p 5432:5432 postgres
+```
+
+If you want to run a UI for the database, you can use the following command to run pgAdmin:
+
+```bash
+docker run -d --name pgadmin --network ecommerce-network -e PGADMIN_DEFAULT_EMAIL=user@domain.com -e PGADMIN_DEFAULT_PASSWORD=admin123 -p 8081:80 dpage/pgadmin4
 ```
 
 ### Essentials Docker Commands
