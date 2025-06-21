@@ -1,0 +1,4 @@
+config:
+  url: http://localhost:8888/properties
+  scope: my-scope
+  key: access-key
