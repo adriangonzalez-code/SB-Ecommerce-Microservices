@@ -2,10 +2,6 @@
 spring:
   application:
     name: sb-msvc-product-api
-  datasource:
-    url: jdbc:postgresql://localhost:5432/sb-ecommerce-course
-    username: postgres
-    password: admin123
   jpa:
     show-sql: true
     properties:
@@ -14,8 +10,9 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 config:
-  url: http://localhost:8888/properties
-  scope: my-scope
-  key: access-key
+  url: http://localhost:8080/api/driver/properties
+  scope: sb-product-api
+  key: 0ce521fb-77f9-459b-b215-ba234dddd90a
+
 server:
   port: 8082
